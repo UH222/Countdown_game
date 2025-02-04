@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PizzaStop Countdown Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+        }
+        .countdown {
+            font-size: 50px;
+            font-weight: bold;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #ff4a4a;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            outline: none;
+        }
+        .btn:active {
+            background: #ff0000;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Stop the Timer at 00:00!</h1>
+    <div class="countdown" id="timer">10.00</div>
+    <button class="btn" id="stopButton">Hold to Stop</button>
+
+    <script>
+        let timeLeft = 10.00;
+        let interval;
+        let isRunning = true;
+
+        function startTimer() {
+            if (interval) clearInterval(interval);
+            timeLeft = 10.00;
+            isRunning = true;
+            interval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft -= 0.01;
+                    document.getElementById("timer").textContent = timeLeft.toFixed(2);
+                } else {
+                    clearInterval(interval);
+                    document.getElementById("timer").textContent = "00.00";
+                    isRunning = false;
+                }
+            }, 10);
+        }
+
+        document.getElementById("stopButton").addEventListener("mousedown", () => {
+            if (isRunning) {
+                clearInterval(interval);
+                let finalTime = document.getElementById("timer").textContent;
+                if (finalTime === "00.00") {
+                    alert("Congrats! You won a free pizza!");
+                } else {
+                    alert("Try again! You stopped at: " + finalTime);
+                }
+            }
+        });
+
+        document.getElementById("stopButton").addEventListener("mouseup", () => {
+            startTimer();
+        });
+
+        startTimer(); // Start on page load
+    </script>
+
+</body>
+</html>
